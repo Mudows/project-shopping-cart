@@ -41,7 +41,6 @@ const valorTotal = () => {
 
 function cartItemClickListener() {
   this.remove(); // Remove o elemento clicado no carrinho.
-  valorTotal();
 }
 
 function createCartItemElement(sku, name, salePrice) {

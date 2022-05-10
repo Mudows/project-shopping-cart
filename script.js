@@ -32,15 +32,22 @@ function createProductItemElement(sku, name, image) {
   return item.querySelector('span.item__sku').innerText;
 } */
 
+/* valorTotal():
+ * Cria um ciclo de repetição que lê todos os itens dentro do carrinho,
+ * pega o valor do produto e adiciona ao total a ser pago.
+ */
 const valorTotal = () => {
-  const itensNoCarrinho = document.querySelectorAll('.cart__item');
-  console.log(itensNoCarrinho);
-  // const valores = itensNoCarrinho.reduce((acc, item) => acc += item.prodValor, 0)
-  console.log(valores);
+  let valorFinal = 0;
+  document.querySelectorAll('.cart__item').forEach((item) => {
+    const valor = item.innerHTML.split('PRICE: $')[1];
+    valorFinal += Number(valor);
+  });
+  document.querySelector('.total-price').innerText = valorFinal;
 };
 
 function cartItemClickListener() {
   this.remove(); // Remove o elemento clicado no carrinho.
+  valorTotal();
 }
 
 function createCartItemElement(sku, name, salePrice) {
@@ -81,6 +88,7 @@ It's adding an event listener to the empty-cart button, so when it's clicked, it
 cart. */
 document.querySelector('.empty-cart').addEventListener('click', () => {
   document.querySelector('.cart__items').innerHTML = '';
+  valorTotal();
 });
 
 window.onload = async () => {

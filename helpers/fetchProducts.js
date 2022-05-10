@@ -2,7 +2,7 @@ const fetchProducts = async ($QUERY) => {
   if (!$QUERY) throw new Error('You must provide an url');
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`;
   const produtosJason = await (await fetch(url)).json();
-  console.log(produtosJason);
+  // console.log(produtosJason);
   return produtosJason;
 };
 

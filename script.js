@@ -98,6 +98,7 @@ window.onload = async () => {
     document.querySelector('.items')
       .appendChild(createProductItemElement(element.id, element.title, element.thumbnail));
   });
+  document.querySelector('.loading').remove();
   adicionaProduto();
   valorTotal();
 };

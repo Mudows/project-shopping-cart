@@ -32,8 +32,16 @@ function createProductItemElement(sku, name, image) {
   return item.querySelector('span.item__sku').innerText;
 } */
 
+const valorTotal = () => {
+  const itensNoCarrinho = document.querySelectorAll('.cart__item');
+  console.log(itensNoCarrinho);
+  // const valores = itensNoCarrinho.reduce((acc, item) => acc += item.prodValor, 0)
+  console.log(valores);
+};
+
 function cartItemClickListener() {
   this.remove(); // Remove o elemento clicado no carrinho.
+  valorTotal();
 }
 
 function createCartItemElement(sku, name, salePrice) {
@@ -57,6 +65,7 @@ const dadosProduto = async (dados) => {
   const prodValor = infoProd.price;
   const item = createCartItemElement(prodId, prodNome, prodValor);
   carrinho.appendChild(item);
+  valorTotal();
 };
 
 /* adicionaProduto():
@@ -68,6 +77,13 @@ const adicionaProduto = () => {
   botaoAdiciona.forEach((botao) => botao.addEventListener('click', () => dadosProduto(botao)));
 };
 
+/* Adiciona um eventListener ao botão de esvaziar, 
+It's adding an event listener to the empty-cart button, so when it's clicked, it will empty the
+cart. */
+document.querySelector('.empty-cart').addEventListener('click', () => {
+  document.querySelector('.cart__items').innerHTML = '';
+});
+
 window.onload = async () => {
   const produtos = await fetchProducts('computador');
   // console.log(produtos);
@@ -76,4 +92,5 @@ window.onload = async () => {
       .appendChild(createProductItemElement(element.id, element.title, element.thumbnail));
   });
   adicionaProduto();
+  valorTotal();
 };

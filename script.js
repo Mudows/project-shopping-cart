@@ -51,7 +51,7 @@ const valorTotal = () => {
 
 function cartItemClickListener() {
   this.remove(); // Remove o elemento clicado no carrinho.
-  saveCartItems(JSON.stringify(carrinho.innerHTML));
+  saveCartItems(JSON.stringify(carrinho.innerHTML)); // atualiza localStorage
   valorTotal();
 }
 
@@ -65,7 +65,8 @@ function createCartItemElement(sku, name, salePrice) {
 
 /* dadosProduto():
  * recebe o id do produto, buscando as informações dele e cria um novo
- * elemento no carrinho com suas informações.
+ * elemento no carrinho com suas informações, e atualiza a lista salva
+ * no localStorage.
  */
 const dadosProduto = async (dados) => {
   const id = dados.parentElement.firstChild.innerText;
@@ -88,13 +89,20 @@ const adicionaProduto = () => {
   botaoAdiciona.forEach((botao) => botao.addEventListener('click', () => dadosProduto(botao)));
 };
 
-/* Adiciona um eventListener ao botão de esvaziar. */
+/* Adiciona um eventListener ao botão de esvaziar e atualiza
+ * a lista salva no localStorage
+ */
 document.querySelector('.empty-cart').addEventListener('click', () => {
   carrinho.innerHTML = '';
   saveCartItems(JSON.stringify(carrinho.innerHTML));
   valorTotal();
 });
 
+/* listaSalva():
+ * Carrega os itens salvos no localStorage e injeta o HTML na lista de
+ * compras da página,  adicionando e eventListener para apagar os itens
+ * com um click.
+ */
 const listaSalva = () => {
   const listaLocal = getSavedCartItems('carrinho');
   carrinho.innerHTML = JSON.parse(listaLocal);

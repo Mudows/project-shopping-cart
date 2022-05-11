@@ -1,9 +1,3 @@
-// const { fetchProducts } = require('./helpers/fetchProducts');
-// const getSavedCartItems = require("./helpers/getSavedCartItems");
-// const saveCartItems = require("./helpers/saveCartItems");
-// const { fetchItem } = require("./helpers/fetchItem");
-// const getSavedCartItems = require("./helpers/getSavedCartItems");
-
 const carrinho = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
@@ -23,7 +17,6 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement(sku, name, image) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));

@@ -13,6 +13,9 @@
     "serialize": "node -e 'require(\"./cypress/utils/testCoverage.js\").testCoverage()'"
   },
   "jest": {
+    "globals": {
+      "window": {}
+    },
     "coverageReporters": [
       "text",
       "html"

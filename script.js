@@ -1,6 +1,10 @@
 // const { fetchProducts } = require('./helpers/fetchProducts');
-
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+// const saveCartItems = require("./helpers/saveCartItems");
 // const { fetchItem } = require("./helpers/fetchItem");
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
+const carrinho = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -47,6 +51,7 @@ const valorTotal = () => {
 
 function cartItemClickListener() {
   this.remove(); // Remove o elemento clicado no carrinho.
+  saveCartItems(JSON.stringify(carrinho.innerHTML));
   valorTotal();
 }
 
@@ -65,12 +70,12 @@ function createCartItemElement(sku, name, salePrice) {
 const dadosProduto = async (dados) => {
   const id = dados.parentElement.firstChild.innerText;
   const infoProd = await fetchItem(id);
-  const carrinho = document.querySelector('.cart__items');
   const prodId = infoProd.id;
   const prodNome = infoProd.title;
   const prodValor = infoProd.price;
   const item = createCartItemElement(prodId, prodNome, prodValor);
   carrinho.appendChild(item);
+  saveCartItems(JSON.stringify(carrinho.innerHTML));
   valorTotal();
 };
 
@@ -83,22 +88,28 @@ const adicionaProduto = () => {
   botaoAdiciona.forEach((botao) => botao.addEventListener('click', () => dadosProduto(botao)));
 };
 
-/* Adiciona um eventListener ao botão de esvaziar, 
-It's adding an event listener to the empty-cart button, so when it's clicked, it will empty the
-cart. */
+/* Adiciona um eventListener ao botão de esvaziar. */
 document.querySelector('.empty-cart').addEventListener('click', () => {
-  document.querySelector('.cart__items').innerHTML = '';
+  carrinho.innerHTML = '';
+  saveCartItems(JSON.stringify(carrinho.innerHTML));
   valorTotal();
 });
 
+const listaSalva = () => {
+  const listaLocal = getSavedCartItems('carrinho');
+  carrinho.innerHTML = JSON.parse(listaLocal);
+  document.querySelectorAll('.cart__item')
+    .forEach((item) => item.addEventListener('click', cartItemClickListener));
+};
+
 window.onload = async () => {
   const produtos = await fetchProducts('computador');
-  // console.log(produtos);
   produtos.results.forEach((element) => {
     document.querySelector('.items')
       .appendChild(createProductItemElement(element.id, element.title, element.thumbnail));
   });
-  document.querySelector('.loading').remove();
+  document.querySelector('.loading').remove(); // Remove o 'Carregando...'.
   adicionaProduto();
+  listaSalva();
   valorTotal();
 };

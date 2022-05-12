@@ -15,7 +15,8 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   })
   it('O retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo; ', async () => {
-    await expect(await fetchProducts('computador')).toEqual(computadorSearch);
+    const resultado = await fetchProducts('computador');
+    expect(computadorSearch).toEqual(resultado);
   })
   it('Ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url; ', async () => {
     await expect(fetchProducts()).rejects.toThrowError('You must provide an url');
